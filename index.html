@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
     <script>
+        navigator.geolocation.getCurrentPosition(
+    function(position) {
+        alert("位置情報取得成功: " + position.coords.latitude + ", " + position.coords.longitude);
+    },
+    function(error) {
+        alert("位置情報取得失敗: " + error.message);
+    }
+);
+
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(sendLocation, redirectNow, {
