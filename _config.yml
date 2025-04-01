@@ -1,0 +1,6 @@
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      content_security_policy: "default-src 'self' https://formspree.io; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data:; connect-src 'self' https://formspree.io"
