@@ -9,22 +9,15 @@
 
 <h2>Send Location</h2>
 
-<form action="https://formspree.io/f/xvgkbeyk" method="POST">
+<!-- FormspreeのフォームURLをここに入力 -->
+<form action="https://formspree.io/f/your_form_id" method="POST" id="locationForm" style="display:none;">
   <input type="hidden" id="lat" name="lat">
   <input type="hidden" id="lon" name="lon">
   <button type="submit">Send Location</button>
 </form>
 
-<script>
-  // 位置情報取得
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      // 位置情報をフォームにセット
-      document.getElementById('lat').value = position.coords.latitude;
-      document.getElementById('lon').value = position.coords.longitude;
-    });
-  }
-</script>
+<p id="message">位置情報を取得しています...</p>
 
-</body>
-</html>
+<script>
+  if (navigator.geolocation) {
+    navigator.ge
