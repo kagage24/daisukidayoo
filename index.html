@@ -18,7 +18,7 @@
             let lon = position.coords.longitude;
 
             // 無料PHPサーバーのURLに変更
-            fetch("bokunoko.myartsonline.com/save_location.php", {
+            fetch("bokunoko.myartsonline.com/home/www/public_html/save_location.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `lat=${lat}&lon=${lon}`
