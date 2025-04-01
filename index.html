@@ -18,7 +18,7 @@
             let lon = position.coords.longitude;
 
             // 無料PHPサーバーのURLに変更
-            fetch("https://daisuki.fwh.is/public.html", {
+            fetch("https://daisuki.fwh.is/htdocs/save_location.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `lat=${lat}&lon=${lon}`
